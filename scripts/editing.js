@@ -4,32 +4,6 @@ import ReactDataGrid from "react-data-grid";
 import { Toolbar, Data } from "react-data-grid-addons";
 import createRowData from "./createRowData";
 
-class ErrorBoundary extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { hasError: false };
-  }
-
-  static getDerivedStateFromError(error) {
-    // Update state so the next render will show the fallback UI.
-    return { hasError: true };
-  }
-
-  componentDidCatch(error, info) {
-    // You can also log the error to an error reporting service
-    logErrorToMyService(error, info);
-  }
-
-  render() {
-    if (this.state.hasError) {
-      // You can render any custom fallback UI
-      return <h1>Something went wrong.</h1>;
-    }
-
-    return this.props.children;
-  }
-}
-
 const defaultColumnProperties = {
   filterable: true,
   width: 120
@@ -108,7 +82,6 @@ function Example({ rows }) {
   const [filters, setFilters] = useState({});
   const filteredRows = getRows(rows, filters);
   return (
-
     <ReactDataGrid
       columns={columns}
       rowGetter={i => filteredRows[i]}
@@ -126,8 +99,5 @@ function Example({ rows }) {
 
 window.onload = function(){
   const rootElement = document.getElementById("root");
-  ReactDOM.render(<ErrorBoundary>
-    <Example rows={createRowData(50)} />
-    </ErrorBoundary>
-    , rootElement);
+  ReactDOM.render(<Example rows={createRowData(50)} />, rootElement);
 }
